@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Interactive Image with Buttons</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff; /* Darker background */
+        color: rgb(0, 0, 0);
+        overflow-y: hidden; /* Ensure text is visible on dark background */
+      }
+
+      .button-container {
+        margin: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      .button:hover {
+        background-color: #0056b3;
+      }
+
+      .image-container {
+        position: relative;
+        display: inline-block;
+      }
+
+      .image-container img {
+        position: absolute; /* All images now have absolute positioning */
+        display: none; /* Initially hide all images */
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      .image-container img.active {
+        display: block; /* Show only the active image */
+        box-shadow: 0 0 20px 10px rgba(255, 255, 0, 0.8); /* Highlight effect */
+        transform: scale(1.05); /* Slight zoom effect */
+      }
+
+      #image {
+        position: relative; /* Base image remains relative to the container */
+        display: block; /* Always display the base image */
+        width: 120%; /* Increase size to show more details */
+        max-width: none; /* Allow width to exceed container */
+        margin-left: -35px;
+      }
+
+      /* Example absolute positions for highlight images */
+      .highlight-image {
+        position: absolute; /* Обязательно для работы top/left */
+      }
+
+      #highlight-1 {
+        top: 54%;
+        height: 6px;
+        right: 13%;
+      }
+      #highlight-1and1 {
+        top: 53.5%;
+        height: 6px;
+        right: 25%;
+      }
+
+      #highlight-2 {
+        top: 54%;
+        height: 6px !important;
+        width: 16px !important;
+        right: 15.5%;
+      }
+
+      #highlight-3 {
+        top: 43%;
+        height: 6px !important;
+        width: 12px !important;
+        right: 12%;
+      }
+
+      #highlight-4 {
+        top: 54%;
+        height: 6px !important;
+        right: 10.9%;
+      }
+
+      #highlight-5 {
+        top: 29.5%;
+        height: 6px !important;
+        right: 10.9%;
+      }
+
+      #highlight-6 {
+        top: 59.5%;
+        height: 6px !important;
+        right: 26px;
+      }
+
+      #highlight-7 {
+        top: 53.7%;
+        height: 6px !important;
+        right: 23.5%;
+      }
+
+      #highlight-8 {
+        top: 29.3%;
+        height: 6px !important;
+        right: 39.5%;
+      }
+
+      #highlight-9 {
+        bottom: 12.5%;
+        height: 6px !important;
+        left: 7.1%;
+      }
+
+      #highlight-10 {
+        bottom: 21%;
+        height: 6px !important;
+        left: 48%;
+      }
+
+      #highlight-11 {
+        bottom: 34%;
+        height: 6px !important;
+        left: 55%;
+      }
+
+      #highlight-12 {
+        bottom: 49.5%;
+        height: 6px !important;
+        left: 72.5%;
+      }
+
+      #highlight-13 {
+        top: 35.3%;
+        height: 6px !important;
+        left: 76%;
+      }
+
+      #highlight-13and1 {
+        top: 39.6%;
+        height: 6px !important;
+        left: 73%;
+      }
+
+      #highlight-14 {
+        top: 15.3%;
+        height: 6px !important;
+        left: 47%;
+      }
+
+      #highlight-15 {
+        top: 21.7%;
+        height: 6px !important;
+        left: 74.4%;
+      }
+
+      #highlight-16 {
+        top: 23%;
+        height: 6px !important;
+        left: 91.5%;
+      }
+
+      #highlight-17 {
+        top: 42%;
+        height: 6px !important;
+        left: 57%;
+      }
+
+      #highlight-18 {
+        top: 12.5%;
+        height: 6px !important;
+        left: 64%;
+      }
+
+      #highlight-19 {
+        top: 21.5%;
+        height: 6px !important;
+        left: 31%;
+      }
+
+      #highlight-20 {
+        top: 11.2%;
+        height: 6px !important;
+        left: 47.3%;
+      }
+
+      #highlight-21 {
+        top: 29.8%;
+        height: 6px !important;
+        right: 31%;
+      }
+
+      #highlight-22 {
+        top: 56.8%;
+        height: 6px !important;
+        right: 64.5%;
+      }
+
+      #highlight-23 {
+        top: 50%;
+        height: 6px !important;
+        right: 56%;
+      }
+
+      #highlight-24 {
+        bottom: 52%;
+        height: 6px !important;
+        left: 73%;
+      }
+
+      #highlight-25 {
+        bottom: 56.3%;
+        height: 6px !important;
+        left: 48.8%;
+      }
+
+      #highlight-26 {
+        top: 23.3%;
+        height: 6px !important;
+        left: 18.5%;
+      }
+
+      #highlight-27 {
+        top: 57%;
+        height: 6px !important;
+        left: 30.8%;
+      }
+
+      #highlight-28 {
+        top: 37.5%;
+        height: 6px !important;
+        left: 28.8%;
+      }
+
+      #highlight-28and1 {
+        top: 42%;
+        height: 6px !important;
+        left: 32%;
+      }
+
+      #highlight-29 {
+        top: 18.8%;
+        height: 6px !important;
+        left: 39.5%;
+      }
+
+      #highlight-30 {
+        bottom: 31%;
+        height: 6px !important;
+        left: 15%;
+      }
+
+      #highlight-30and1 {
+        bottom: 27.5%;
+        height: 6px !important;
+        left: 18%;
+      }
+
+      #highlight-31 {
+        bottom: 14%;
+        height: 6px !important;
+        left: 9%;
+      }
+
+      #highlight-32 {
+        bottom: 13.5%;
+        height: 6px !important;
+        left: 17.5%;
+      }
+
+      #highlight-33 {
+        top: 45%;
+        height: 6px !important;
+        left: 56%;
+      }
+
+      #highlight-34 {
+        bottom: 68%;
+        height: 6px !important;
+        left: 46.8%;
+      }
+
+      #highlight-35 {
+        bottom: 54%;
+        height: 6px !important;
+        left: 48.5%;
+      }
+
+      #highlight-36 {
+        bottom: 47.5%;
+        height: 6px !important;
+        left: 13%;
+      }
+
+      #highlight-38 {
+        top: 23.7%;
+        height: 6px !important;
+        left: 71.4%;
+      }
+
+      #highlight-38and1 {
+        top: 24.5%;
+        height: 6px !important;
+        left: 34%;
+      }
+
+      #highlight-39 {
+        top: 11.2%;
+        height: 6px !important;
+        left: 38%;
+      }
+
+      #highlight-40 {
+        bottom: 13%;
+        height: 6px !important;
+        left: 13.5%;
+      }
+
+      #highlight-40and1 {
+        bottom: 10.5%;
+        height: 6px !important;
+        left: 15.5%;
+      }
+
+      #highlight-41 {
+        bottom: 36%;
+        height: 12px !important;
+        left: 60.5%;
+      }
+
+      #highlight-42 {
+        bottom: 12.7%;
+        height: 6px !important;
+        left: 27%;
+      }
+
+      #highlight-43 {
+        top: 53.7%;
+        height: 6px !important;
+        right: 32.5%;
+      }
+
+      #highlight-43and1 {
+        top: 72.5%;
+        height: 6px !important;
+        right: 63.5%;
+      }
+
+      #highlight-44 {
+        top: 71%;
+        height: 12px !important;
+        right: 50.5%;
+      }
+
+      #highlight-44and1 {
+        top: 71%;
+        height: 6px !important;
+        right: 48.5%;
+      }
+
+      #highlight-45 {
+        top: 74%;
+        height: 6px !important;
+        right: 66.5%;
+      }
+
+      #highlight-46and1 {
+        top: 72.5%;
+        height: 6px !important;
+        right: 63.5%;
+      }
+
+      #highlight-47 {
+        top: 65.5%;
+        height: 6px !important;
+        right: 92%;
+      }
+
+      #highlight-48 {
+        top: 53.7%;
+        height: 6px !important;
+        right: 30%;
+      }
+
+      #highlight-49 {
+        top: 64.7%;
+        height: 6px !important;
+        right: 33%;
+      }
+
+      #highlight-50 {
+        top: 72%;
+        height: 6px !important;
+        right: 58%;
+      }
+
+      #highlight-51 {
+        top: 83%;
+        height: 18px !important;
+        right: 75%;
+      }
+
+      #highlight-52 {
+        top: 72%;
+        height: 6px !important;
+        right: 56%;
+      }
+
+      #highlight-53 {
+        top: 79%;
+        height: 6px !important;
+        right: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>План с указанием расположения розеток и выключателей</h1>
+    <div class="button-container">
+      <!-- Buttons will be generated dynamically -->
+    </div>
+
+    <div class="image-container">
+      <img src="./img/основа.png" alt="Floor Plan" id="image" />
+      <img
+        src="./img/1.png"
+        alt="Image 1"
+        class="highlight-image"
+        id="highlight-1"
+      />
+      <img
+        src="./img/1and1.png"
+        alt="Image 1-1"
+        class="highlight-image"
+        id="highlight-1and1"
+      />
+      <img
+        src="./img/2.png"
+        alt="Image 2"
+        class="highlight-image"
+        id="highlight-2"
+      />
+      <img
+        src="./img/3.png"
+        alt="Image 3"
+        class="highlight-image"
+        id="highlight-3"
+      />
+      <img
+        src="./img/4.png"
+        alt="Image 4"
+        class="highlight-image"
+        id="highlight-4"
+      />
+      <img
+        src="./img/5.png"
+        alt="Image 5"
+        class="highlight-image"
+        id="highlight-5"
+      />
+      <img
+        src="./img/6.png"
+        alt="Image 6"
+        class="highlight-image"
+        id="highlight-6"
+      />
+      <img
+        src="./img/7.png"
+        alt="Image 7"
+        class="highlight-image"
+        id="highlight-7"
+      />
+      <img
+        src="./img/8.png"
+        alt="Image 8"
+        class="highlight-image"
+        id="highlight-8"
+      />
+      <img
+        src="./img/9.png"
+        alt="Image 9"
+        class="highlight-image"
+        id="highlight-9"
+      />
+      <img
+        src="./img/10.png"
+        alt="Image 10"
+        class="highlight-image"
+        id="highlight-10"
+      />
+      <img
+        src="./img/11.png"
+        alt="Image 11"
+        class="highlight-image"
+        id="highlight-11"
+      />
+      <img
+        src="./img/12.png"
+        alt="Image 12"
+        class="highlight-image"
+        id="highlight-12"
+      />
+      <img
+        src="./img/13.png"
+        alt="Image 13"
+        class="highlight-image"
+        id="highlight-13"
+      />
+      <img
+        src="./img/13and1.png"
+        alt="Image 13"
+        class="highlight-image"
+        id="highlight-13and1"
+      />
+      <img
+        src="./img/14.png"
+        alt="Image 14"
+        class="highlight-image"
+        id="highlight-14"
+      />
+      <img
+        src="./img/15.png"
+        alt="Image 15"
+        class="highlight-image"
+        id="highlight-15"
+      />
+      <img
+        src="./img/16.png"
+        alt="Image 16"
+        class="highlight-image"
+        id="highlight-16"
+      />
+      <img
+        src="./img/17.png"
+        alt="Image 17"
+        class="highlight-image"
+        id="highlight-17"
+      />
+      <img
+        src="./img/18.png"
+        alt="Image 18"
+        class="highlight-image"
+        id="highlight-18"
+      />
+      <img
+        src="./img/19.png"
+        alt="Image 19"
+        class="highlight-image"
+        id="highlight-19"
+      />
+      <img
+        src="./img/20.png"
+        alt="Image 20"
+        class="highlight-image"
+        id="highlight-20"
+      />
+      <img
+        src="./img/21.png"
+        alt="Image 21"
+        class="highlight-image"
+        id="highlight-21"
+      />
+      <img
+        src="./img/22.png"
+        alt="Image 22"
+        class="highlight-image"
+        id="highlight-22"
+      />
+      <img
+        src="./img/23.png"
+        alt="Image 23"
+        class="highlight-image"
+        id="highlight-23"
+      />
+      <img
+        src="./img/24.png"
+        alt="Image 24"
+        class="highlight-image"
+        id="highlight-24"
+      />
+      <img
+        src="./img/25.png"
+        alt="Image 25"
+        class="highlight-image"
+        id="highlight-25"
+      />
+      <img
+        src="./img/26.png"
+        alt="Image 26"
+        class="highlight-image"
+        id="highlight-26"
+      />
+      <img
+        src="./img/27.png"
+        alt="Image 27"
+        class="highlight-image"
+        id="highlight-27"
+      />
+      <img
+        src="./img/28.png"
+        alt="Image 28"
+        class="highlight-image"
+        id="highlight-28"
+      />
+      <img
+        src="./img/28and1.png"
+        alt="Image 28"
+        class="highlight-image"
+        id="highlight-28and1"
+      />
+      <img
+        src="./img/29.png"
+        alt="Image 29"
+        class="highlight-image"
+        id="highlight-29"
+      />
+      <img
+        src="./img/30.png"
+        alt="Image 30"
+        class="highlight-image"
+        id="highlight-30"
+      />
+      <img
+        src="./img/30and1.png"
+        alt="Image 30"
+        class="highlight-image"
+        id="highlight-30and1"
+      />
+      <img
+        src="./img/31.png"
+        alt="Image 31"
+        class="highlight-image"
+        id="highlight-31"
+      />
+
+      <img
+        src="./img/32.png"
+        alt="Image 32"
+        class="highlight-image"
+        id="highlight-32"
+      />
+      <img
+        src="./img/33.png"
+        alt="Image 33"
+        class="highlight-image"
+        id="highlight-33"
+      />
+      <img
+        src="./img/34.png"
+        alt="Image 34"
+        class="highlight-image"
+        id="highlight-34"
+      />
+      <img
+        src="./img/35.png"
+        alt="Image 35"
+        class="highlight-image"
+        id="highlight-35"
+      />
+      <img
+        src="./img/36.png"
+        alt="Image 36"
+        class="highlight-image"
+        id="highlight-36"
+      />
+
+      <img
+        src="./img/38.png"
+        alt="Image 38"
+        class="highlight-image"
+        id="highlight-38"
+      />
+      <img
+        src="./img/38and1.png"
+        alt="Image 38"
+        class="highlight-image"
+        id="highlight-38and1"
+      />
+      <img
+        src="./img/39.png"
+        alt="Image 39"
+        class="highlight-image"
+        id="highlight-39"
+      />
+      <img
+        src="./img/9.png"
+        alt="Image 40"
+        class="highlight-image"
+        id="highlight-40"
+      />
+
+      <img
+        src="./img/9.png"
+        alt="Image 40"
+        class="highlight-image"
+        id="highlight-40and1"
+      />
+      <img
+        src="./img/41.png"
+        alt="Image 41"
+        class="highlight-image"
+        id="highlight-41"
+      />
+      <img
+        src="./img/42.png"
+        alt="Image 42"
+        class="highlight-image"
+        id="highlight-42"
+      />
+      <img
+        src="./img/43.png"
+        alt="Image 43"
+        class="highlight-image"
+        id="highlight-43"
+      />
+
+      <img
+        src="./img/43and1.png"
+        alt="Image 43"
+        class="highlight-image"
+        id="highlight-43and1"
+      />
+      <img
+        src="./img/44.png"
+        alt="Image 44"
+        class="highlight-image"
+        id="highlight-44"
+      />
+      <img
+        src="./img/44and1.png"
+        alt="Image 44"
+        class="highlight-image"
+        id="highlight-44and1"
+      />
+      <img
+        src="./img/45.png"
+        alt="Image 45"
+        class="highlight-image"
+        id="highlight-45"
+      />
+
+      <img
+        src="./img/46and1.png"
+        alt="Image 46"
+        class="highlight-image"
+        id="highlight-46and1"
+      />
+
+      <img
+        src="./img/47.png"
+        alt="Image 47"
+        class="highlight-image"
+        id="highlight-47"
+      />
+      <img
+        src="./img/48.png"
+        alt="Image 48"
+        class="highlight-image"
+        id="highlight-48"
+      />
+      <img
+        src="./img/49.png"
+        alt="Image 49"
+        class="highlight-image"
+        id="highlight-49"
+      />
+      <img
+        src="./img/50.png"
+        alt="Image 50"
+        class="highlight-image"
+        id="highlight-50"
+      />
+      <img
+        src="../img/51.png"
+        alt="Image 51"
+        class="highlight-image"
+        id="highlight-51"
+      />
+      <img
+        src="../img/52.png"
+        alt="Image 52"
+        class="highlight-image"
+        id="highlight-52"
+      />
+      <img
+        src="../img/53.png"
+        alt="Image 53"
+        class="highlight-image"
+        id="highlight-53"
+      />
+    </div>
+
+    <script>
+      const buttonContainer = document.querySelector(".button-container");
+      const images = document.querySelectorAll(".highlight-image");
+
+      // Create buttons dynamically
+      for (let i = 1; i <= 53; i++) {
+        const button = document.createElement("button");
+        button.textContent = `${i}`;
+        button.className = "button";
+        button.dataset.id = i;
+
+        button.addEventListener("click", () => {
+          // Hide all images
+          images.forEach((img) => img.classList.remove("active"));
+
+          // Show the selected images based on the button clicked
+          if (i === 1) {
+            // Show images 1.png and 1-1.png when button 1 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/1.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/1and1.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 13) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/13.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/13and1.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 28) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/28.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/28and1.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 30) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/30.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/30and1.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 38) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/38.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/38and1.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 40) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/9.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/9.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 43) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/43.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/43and1.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 44) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/44.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/44and1.png']`)
+              ?.classList.add("active");
+          }
+          if (i === 46) {
+            // Show images 13.png and 2-1.png when button 2 is clicked
+            document
+              .querySelector(`.highlight-image[src='/img/46.png']`)
+              ?.classList.add("active");
+            document
+              .querySelector(`.highlight-image[src='/img/46and1.png']`)
+              ?.classList.add("active");
+          } else {
+            // Show the corresponding single image for other buttons
+            const imageToShow = document.querySelector(
+              `.highlight-image[src='/img/${i}.png']`
+            );
+            if (imageToShow) {
+              imageToShow.classList.add("active");
+            }
+          }
+        });
+
+        buttonContainer.appendChild(button);
+      }
+    </script>
+  </body>
+</html>
